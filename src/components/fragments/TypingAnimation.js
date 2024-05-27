@@ -44,9 +44,9 @@ const TypingAnimation = () => {
   }, [currentText, isDeleting, loopNum, typingSpeed]);
 
   return (
-    <div className="flex gap-2 text-[22pt] font-normal">
+    <div className="flex gap-2 text-[20pt] h-12 font-normal">
       <h3>Manfaat nya?</h3>
-      <div className="typewriter-container p-0">
+      <div className="typewriter-container p-0 ">
         <span className="typewriter-text">{currentText}</span>
       </div>
     </div>
