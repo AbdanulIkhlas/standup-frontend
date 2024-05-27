@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="w-full h-[80px] absolute z-20 px-20 font-roboto shadow-lg"
+      className="w-full h-[80px] absolute z-30 px-20 font-roboto shadow-lg"
       style={{
         background:
           "linear-gradient(to right, #0c0201 35%, #320702 60%, #3A0707 62%, #8d3a40 73%, #220d18 82%)",
