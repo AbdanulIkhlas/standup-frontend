@@ -24,7 +24,7 @@ const Navbar = () => {
             />
           </div>
           {/* Navbar Items */}
-          <div className="flex space-x-8 text-white text-lg font-semibold">
+          <div className="flex space-x-20 text-white text-lg font-semibold">
             <Link
               to="/buy-ticket"
               className="hover:text-gray-300 transition duration-300"
