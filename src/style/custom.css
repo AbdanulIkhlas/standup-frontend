@@ -1,0 +1,57 @@
+/* Custom CSS for Typing Effect */
+.typewriter-container {
+  display: inline-block;
+}
+
+.typewriter-text {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 0.1em solid #fff;
+  animation: blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #fff;
+  }
+}
+
+/* Custom CSS for Twinkle Button */
+.twinkle-button {
+  background: #250a09;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: twinkleBackground 2s infinite;
+}
+
+@keyframes twinkleBackground {
+  0%,
+  25% {
+    background: #790400;
+  }
+  50% {
+    background: #340003;
+  }
+  75% {
+    background: #b00303;
+  }
+  100% {
+    background: #980500;
+  }
+}
+
+.twinkle-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
