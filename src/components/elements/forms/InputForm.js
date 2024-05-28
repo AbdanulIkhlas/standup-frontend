@@ -22,6 +22,7 @@ const InputForm = ({
         id={id}
         placeholder={placeholder}
         className={`${customClass} w-[250px] bg-transparent focus:outline-none`}
+        required
       />
     </div>
   );
