@@ -21,7 +21,7 @@ const Login = () => {
           <h1 className="text-2xl font-bold mb-12">LOGIN</h1>
           <div className="mb-4">
             <InputForm
-              pathIcon="./svg/icon-person.svg"
+              pathIcon="./svg/icon-email.svg"
               type="text"
               name="email"
               id="email"
