@@ -48,7 +48,7 @@ const Login = () => {
           <p className="mt-4">
             Belum ada akun?
             <span className="underline text-blue-400 pl-2">
-              <Link to="registrasi">Daftar Sekarang</Link>
+              <Link to="../register">Daftar Sekarang</Link>
             </span>
           </p>
         </form>
