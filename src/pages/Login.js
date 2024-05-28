@@ -23,9 +23,9 @@ const Login = () => {
             <InputForm
               pathIcon="./svg/icon-person.svg"
               type="text"
-              name="username"
-              id="username"
-              placeholder="Username"
+              name="email"
+              id="email"
+              placeholder="masukkan email anda"
               customClass="mb-3"
             />
           </div>
@@ -35,7 +35,7 @@ const Login = () => {
               type="password"
               name="password"
               id="password"
-              placeholder="Password"
+              placeholder="masukkan password anda"
               customClass="mb-3"
             />
           </div>
