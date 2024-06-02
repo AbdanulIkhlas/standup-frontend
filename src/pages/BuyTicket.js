@@ -79,21 +79,21 @@ const BuyTicket = () => {
           </div>
           <div className="transition duration-300 ease-in-out transform w-full">
             {/* harga */}
-            <div>
+            <div className="mb-4">
               <div className="mb-2">Harga:</div>
               <div className="mb-2 border border-white p-2 rounded ">
                 Rp {selectedTicket.harga}
               </div>
             </div>
             {/* tanggal */}
-            <div>
+            <div className="mb-4">
               <div className="mb-2">Tanggal:</div>
               <div className="mb-2 border border-white p-2 rounded">
                 {selectedTicket.tanggal}
               </div>
             </div>
             {/* waktu */}
-            <div>
+            <div className="mb-4">
               <div className="mb-2">Waktu:</div>
               <div className="mb-2 border border-white p-2 rounded">
                 {selectedTicket.waktu} WIB
