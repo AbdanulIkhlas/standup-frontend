@@ -1,8 +1,27 @@
 import InputForm from "../components/elements/forms/InputForm";
 import SubmitButton from "../components/elements/buttons/SubmitButton";
 import { Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+// import ToastManager from "../components/fragments/ToastManager"; 
 
 const Login = () => {
+  // const { showSuccessRegister, showSuccessLogout, showErrorLogin } =
+  //   ToastManager();
+
+  // const handleLogin = async (event) => {
+  //   event.preventDefault();
+  //   const email = event.target.email.value;
+  //   const password = event.target.password.value;
+  //   try {
+  //     const response = await mockApi.login(email, password);
+  //     if (response.success) {
+  //       // Handle successful login (e.g., redirect to dashboard)
+  //       console.log("Login successful!");
+  //     }
+  //   } catch (error) {
+  //     showErrorLogin();
+  //   }
+  // };
   return (
     <div className="font-roboto relative">
       <img
@@ -53,6 +72,7 @@ const Login = () => {
           </p>
         </form>
       </main>
+      <ToastContainer />
     </div>
   );
 };
