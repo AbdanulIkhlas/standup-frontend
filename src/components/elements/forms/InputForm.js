@@ -1,7 +1,7 @@
 import React from "react";
 
 const InputForm = ({
-  label,
+  value,
   type,
   name,
   id,
@@ -20,6 +20,7 @@ const InputForm = ({
         type={type}
         name={name}
         id={id}
+        value={value}
         placeholder={placeholder}
         className={`${customClass} w-[250px] bg-transparent focus:outline-none`}
         required

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import InputForm from "../components/elements/forms/InputForm";
+// import InputForm from "../components/elements/forms/InputForm";
 import SubmitButton from "../components/elements/buttons/SubmitButton";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const BuyTicket = () => {
   const ListTicket = [
@@ -70,20 +70,40 @@ const BuyTicket = () => {
                   key={ticket.judul}
                   value={ticket.judul}
                   className="bg-[#612125]"
+                  name="judul"
                 >
                   {ticket.judul}
                 </option>
               ))}
             </select>
           </div>
-          <div className="transition duration-300 ease-in-out transform">
-            <p className="mb-2">Harga:</p>
-            <p className="mb-2">Rp {selectedTicket.harga}</p>
-            <p className="mb-2">Tanggal:</p>
-            <p className="mb-2">{selectedTicket.tanggal}</p>
-            <p className="mb-2">Waktu:</p>
-            <p className="mb-2">{selectedTicket.waktu}</p>
+          <div className="transition duration-300 ease-in-out transform w-full">
+            {/* harga */}
+            <div>
+              <div className="mb-2">Harga:</div>
+              <div className="mb-2 border border-white p-2 rounded ">
+                Rp {selectedTicket.harga}
+              </div>
+            </div>
+            {/* tanggal */}
+            <div>
+              <div className="mb-2">Tanggal:</div>
+              <div className="mb-2 border border-white p-2 rounded">
+                {selectedTicket.tanggal}
+              </div>
+            </div>
+            {/* waktu */}
+            <div>
+              <div className="mb-2">Waktu:</div>
+              <div className="mb-2 border border-white p-2 rounded">
+                {selectedTicket.waktu} WIB
+              </div>
+            </div>
           </div>
+          {/* hidden input */}
+          <input type="hidden" name="harga" value={selectedTicket.harga} />
+          <input type="hidden" name="tanggal" value={selectedTicket.tanggal} />
+          <input type="hidden" name="waktu" value={selectedTicket.waktu} />
           <SubmitButton
             type="submit"
             customClass="bg-[#800909] px-6 py-2 rounded-lg font-bold mt-4"
