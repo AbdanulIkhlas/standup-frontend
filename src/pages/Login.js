@@ -1,27 +1,43 @@
 import InputForm from "../components/elements/forms/InputForm";
 import SubmitButton from "../components/elements/buttons/SubmitButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-// import ToastManager from "../components/fragments/ToastManager"; 
+import ToastManager from "../components/fragments/ToastManager"; 
+import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
-  // const { showSuccessRegister, showSuccessLogout, showErrorLogin } =
-  //   ToastManager();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Updated hook
+  const [message, setMessage] = useState("");
+  const { showSuccessRegister, showSuccessLogout, showErrorLogin } =
+    ToastManager();
 
-  // const handleLogin = async (event) => {
-  //   event.preventDefault();
-  //   const email = event.target.email.value;
-  //   const password = event.target.password.value;
-  //   try {
-  //     const response = await mockApi.login(email, password);
-  //     if (response.success) {
-  //       // Handle successful login (e.g., redirect to dashboard)
-  //       console.log("Login successful!");
-  //     }
-  //   } catch (error) {
-  //     showErrorLogin();
-  //   }
-  // };
+  const Auth = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(
+        "https://standup-backend-g64dafi2la-et.a.run.app/login",
+        {
+          email: email,
+          password: password,
+        },
+        { withCredentials: false } // Pastikan ini diset ke false
+      );
+      navigate("/");
+      // jika berhasil regist
+      if (e.response) {
+        setMessage(e.response.data.message);
+      }
+    } catch (error) {
+      // jika error
+      if (error.response) {
+        setMessage(error.response.data.message);
+        showErrorLogin();
+      }
+    }
+  };
   return (
     <div className="font-roboto relative">
       <img
@@ -34,7 +50,7 @@ const Login = () => {
       <main className="w-full absolute z-30 px-20 h-screen flex flex-col items-center justify-center">
         {/* FORM LOGIN */}
         <form
-          action=""
+          onSubmit={Auth}
           className="py-14 px-12 text-white flex flex-col justify-center items-center border border-white bg-[#612125] bg-opacity-80 backdrop-blur-md rounded-lg"
         >
           <h1 className="text-2xl font-bold mb-12">LOGIN</h1>
@@ -44,6 +60,8 @@ const Login = () => {
               type="text"
               name="email"
               id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="masukkan email anda"
               customClass="mb-3"
             />
@@ -54,6 +72,8 @@ const Login = () => {
               type="password"
               name="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="masukkan password anda"
               customClass="mb-3"
             />

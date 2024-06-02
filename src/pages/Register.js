@@ -32,7 +32,7 @@ const Register = () => {
       );
       navigate("/login");
       // jika berhasil regist
-      if (e.response) {
+      if (e.response.success) {
         setMessage(e.response.data.message);
       }
     } catch (error) {
