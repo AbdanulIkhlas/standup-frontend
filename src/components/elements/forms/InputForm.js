@@ -8,6 +8,7 @@ const InputForm = ({
   placeholder,
   customClass,
   pathIcon,
+  onChange, // tambahkan properti onChange
 }) => {
   return (
     <div className="flex gap-2 items-center mb-4 border-b border-white transition duration-300 focus-within:border-red-400">
@@ -22,6 +23,7 @@ const InputForm = ({
         id={id}
         value={value}
         placeholder={placeholder}
+        onChange={onChange} // tambahkan handler onChange
         className={`${customClass} w-[250px] bg-transparent focus:outline-none`}
         required
       />
