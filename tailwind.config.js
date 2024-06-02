@@ -12,10 +12,14 @@ module.exports = {
         // secondary: "#10b981",
         pale: "#D9D9D9",
       },
-      // boxShadow: {
-      //   cardShadow: "0 5px 16px 0 rgba(0, 0, 0, 0.15)",
-      //   buttonShadow: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
-      // },
+      boxShadow: {
+        profileShadow:
+          "9px 9px 10px -3px rgba(255,255,255,0.7), 9px 9px 10px -3px rgba(255,255,255,0.7), 9px 9px 10px -3px rgba(255,255,255,0.7);",
+        secondShadow:
+          "0px 8px 14px -4px rgba(255,255,255,1), 0px 8px 14px -4px rgba(255,255,255,1),  0px 8px 14px -4px rgba(255,255,255,1);",
+        thirdShadow:
+          "13px 13px 8px -11px rgba(53,49,49,0.75), 13px 13px 8px -11px rgba(53,49,49,0.75),  13px 13px 8px -11px rgba(53,49,49,0.75);", // Added thirdShadow
+      },
       // borderRadius: {
       //   customRounded: "52% 48% 48% 52% / 50% 54% 46% 50% ",
       // },
