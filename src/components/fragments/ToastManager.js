@@ -39,7 +39,37 @@ const ToastManager = () => {
     });
   };
 
-  return { showSuccessRegister, showSuccessLogout, showErrorLogin };
+  const showSuccessUpdateProfile = () => {
+    toast.success("Profil berhasil diperbarui", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  const showSuccessDeleteTicket = () => {
+    toast.success("Berhasil Menghapus Tiket", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  return {
+    showSuccessRegister,
+    showSuccessLogout,
+    showErrorLogin,
+    showSuccessUpdateProfile,
+    showSuccessDeleteTicket,
+  };
 };
 
 export default ToastManager;
