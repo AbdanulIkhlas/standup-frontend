@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import Cookies from "js-cookie";
 
 const Navbar = ({ status }) => {
-  // State to manage login status
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
@@ -19,20 +18,11 @@ const Navbar = ({ status }) => {
     }
   };
 
-  const Logout = async () => {
-    try {
-      await axios.delete(
-        "https://standup-backend-g64dafi2la-et.a.run.app/logout",
-        {
-          withCredentials: true,
-        }
-      );
-      setIsLoggedIn(false);
-      // redirect ke homepage before login
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
+  const handleLogout = () => {
+    Cookies.remove("authToken");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   return (
@@ -55,14 +45,14 @@ const Navbar = ({ status }) => {
           </div>
           {/* Navbar Items */}
           <div className="flex space-x-20 text-white text-lg font-semibold">
-            <Link
-              to="/buy-ticket"
-              className="hover:text-gray-300 transition duration-300"
-            >
-              Beli Tiket
-            </Link>
             {isLoggedIn ? (
               <>
+                <Link
+                  to="/buy-ticket"
+                  className="hover:text-gray-300 transition duration-300"
+                >
+                  Beli Tiket
+                </Link>
                 <Link
                   to="/profile"
                   className="hover:text-gray-300 transition duration-300"
@@ -70,19 +60,27 @@ const Navbar = ({ status }) => {
                   Profile
                 </Link>
                 <button
-                  onClick={Logout}
+                  onClick={handleLogout}
                   className="hover:text-gray-300 transition duration-300"
                 >
-                  Logout {isLoggedIn}
+                  Logout
                 </button>
               </>
             ) : (
-              <Link
-                to="/login"
-                className="hover:text-gray-300 transition duration-300"
-              >
-                Login
-              </Link>
+              <>
+                <Link
+                  to="/login"
+                  className="hover:text-gray-300 transition duration-300"
+                >
+                  Beli Tiket
+                </Link>
+                <Link
+                  to="/login"
+                  className="hover:text-gray-300 transition duration-300"
+                >
+                  Login
+                </Link>
+              </>
             )}
           </div>
         </div>
