@@ -10,14 +10,20 @@ const HomePage = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    getDataUser();
+  }, []);
+
+  const getDataUser = async () => {
+    const storedUser = await localStorage.getItem("user");
+
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-  }, []);
+  };
 
   return (
     <div className="font-roboto">
@@ -35,11 +41,6 @@ const HomePage = () => {
             <TypingAnimation />
           </div>
         </div>
-        {/* {isLoggedIn && user && (
-          <div className="text-white mt-6">
-            <p>Welcome, {user.nama}!</p>
-          </div>
-        )} */}
         <div className="mt-14 text-white flex gap-3">
           <div>
             <h1 className="text-[22pt] mb-2 text-red-700 font-bold">

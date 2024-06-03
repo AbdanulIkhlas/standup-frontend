@@ -37,11 +37,13 @@ const Navbar = ({ status }) => {
         <div className="container mx-auto py-3 flex justify-between items-center">
           {/* Logo Section */}
           <div className="text-white text-2xl">
-            <img
-              src="./images/logo.png"
-              alt="Logo"
-              className="h-12 inline-block"
-            />
+            <Link to='/'>
+              <img
+                src="./images/logo.png"
+                alt="Logo"
+                className="h-12 inline-block"
+              />
+            </Link>
           </div>
           {/* Navbar Items */}
           <div className="flex space-x-20 text-white text-lg font-semibold">

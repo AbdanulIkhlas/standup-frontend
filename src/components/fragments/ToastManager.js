@@ -63,12 +63,25 @@ const ToastManager = () => {
     });
   };
 
+  // const showSuccessLogin = (username) => {
+  //   toast.success(`Halooo, ${username}`, {
+  //     position: "bottom-right",
+  //     autoClose: 5000,
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //   });
+  // };
+
   return {
     showSuccessRegister,
     showSuccessLogout,
     showErrorLogin,
     showSuccessUpdateProfile,
     showSuccessDeleteTicket,
+    // showSuccessLogin,
   };
 };
 

@@ -28,6 +28,7 @@ const Login = () => {
         setMessage(response.data.message);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("accessToken", response.data.accessToken);
+        // localStorage.setItem("wasLoggedIn", "true"); // Set wasLoggedIn to true
         navigate("/");
         console.log("Login success");
       } else {
