@@ -28,7 +28,7 @@ const Register = () => {
           username: username,
           notelp: phone,
         },
-        { withCredentials: false } // Pastikan ini diset ke false
+        { withCredentials: true } // Pastikan ini diset ke false
       );
       navigate("/login");
       // jika berhasil regist

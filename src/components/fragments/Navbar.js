@@ -1,9 +1,39 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const Navbar = () => {
+const Navbar = ({ status }) => {
   // State to manage login status
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    statusLogin();
+  }, [status]);
+
+  const statusLogin = () => {
+    if (status) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
+  const Logout = async () => {
+    try {
+      await axios.delete(
+        "https://standup-backend-g64dafi2la-et.a.run.app/logout",
+        {
+          withCredentials: true,
+        }
+      );
+      setIsLoggedIn(false);
+      // redirect ke homepage before login
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -32,12 +62,20 @@ const Navbar = () => {
               Beli Tiket
             </Link>
             {isLoggedIn ? (
-              <Link
-                to="/profile"
-                className="hover:text-gray-300 transition duration-300"
-              >
-                Profile
-              </Link>
+              <>
+                <Link
+                  to="/profile"
+                  className="hover:text-gray-300 transition duration-300"
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={Logout}
+                  className="hover:text-gray-300 transition duration-300"
+                >
+                  Logout {isLoggedIn}
+                </button>
+              </>
             ) : (
               <Link
                 to="/login"
