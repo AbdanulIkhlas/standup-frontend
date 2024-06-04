@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
 
 const Navbar = ({ status }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,16 +18,11 @@ const Navbar = ({ status }) => {
     }
   };
 
-  const HandleLogout = async () => {
-    try {
-      await axios.delete(
-        "https://standup-backend-g64dafi2la-et.a.run.app/logout"
-      );
-      navigate("/login");
-      setIsLoggedIn(false);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleLogout = () => {
+    Cookies.remove("authToken");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   return (
@@ -43,7 +37,7 @@ const Navbar = ({ status }) => {
         <div className="container mx-auto py-3 flex justify-between items-center">
           {/* Logo Section */}
           <div className="text-white text-2xl">
-            <Link to="/">
+            <Link to='/'>
               <img
                 src="./images/logo.png"
                 alt="Logo"
@@ -68,7 +62,7 @@ const Navbar = ({ status }) => {
                   Profile
                 </Link>
                 <button
-                  onClick={HandleLogout}
+                  onClick={handleLogout}
                   className="hover:text-gray-300 transition duration-300"
                 >
                   Logout

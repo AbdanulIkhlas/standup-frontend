@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Navbar from "../components/fragments/Navbar";
 import TypingAnimation from "../components/fragments/TypingAnimation";
 import TwinkleButton from "../components/elements/buttons/TwinkleButton";
 import AnimatedArrow from "../components/fragments/AnimatedArrow";
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
+import {jwtDecode} from "jwt-decode"; // Perbaiki cara import jwt-decode
 
 const HomePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState("");
-  const [userData, setUserData] = useState({});
-  const [expired, setExpired] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     refreshToken();
@@ -21,57 +18,32 @@ const HomePage = () => {
   const refreshToken = async () => {
     try {
       const response = await axios.get(
-        "https://standup-backend-g64dafi2la-et.a.run.app/token"
+        `https://standup-backend-g64dafi2la-et.a.run.app/token`,
+        { withCredentials: true }
       );
-      setToken(response.data.accessToken);
-      const decoded = jwtDecode(response.data.accessToken);
-      setUserData({
-        id: decoded.id,
-        nama: decoded.nama,
-        email: decoded.email,
-        notelp: decoded.notelp,
-        alamat: decoded.alamat,
-        username: decoded.username,
-      });
-      setExpired(decoded.exp);
-      setIsLoggedIn(true);
-    } catch (error) {
-      if (error.response) {
-        navigate("/");
+
+      if (response.status === 200) {
+        const accessToken = response.data.accessToken;
+        setToken(accessToken);
+        const decoded = jwtDecode(accessToken);
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
       }
+    } catch (error) {
+      console.error("Error refreshing token:", error.message);
+      setIsLoggedIn(false);
     }
   };
 
   const axiosJWT = axios.create();
 
-  axiosJWT.interceptors.request.use(
-    async (config) => {
-      const currentDate = new Date();
-      if (expired * 1000 < currentDate.getTime()) {
-        const response = await axios.get(
-          "https://standup-backend-g64dafi2la-et.a.run.app/token"
-        );
-        config.headers.Authorization = `Bearer ${response.data.accessToken}`;
-        setToken(response.data.accessToken);
-        const decoded = jwtDecode(response.data.accessToken);
-        setUserData({
-          id: decoded.id,
-          nama: decoded.nama,
-          email: decoded.email,
-          notelp: decoded.notelp,
-          alamat: decoded.alamat,
-          username: decoded.username,
-        });
-        setExpired(decoded.exp);
-        setIsLoggedIn(true);
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
+  axiosJWT.interceptors.request.use((config) => {
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
-  );
-
+    return config;
+  });
   return (
     <div className="font-roboto">
       <img
@@ -79,7 +51,7 @@ const HomePage = () => {
         alt="background home"
         className="w-full h-screen object-cover absolute z-10"
       ></img>
-      <Navbar status={isLoggedIn} userData={userData} />
+      <Navbar status={isLoggedIn} />
       <main className="w-full absolute z-20 px-20 h-screen flex flex-col justify-center ">
         <div className="text-white leading-[60px] h-[180px]">
           <h1 className="text-[50pt] font-bold">Galau? Suntuk?</h1>
@@ -95,7 +67,7 @@ const HomePage = () => {
             </h1>
             {isLoggedIn ? (
               <Link to="/buy-ticket">
-                <TwinkleButton>PESAN TIKET </TwinkleButton>
+                <TwinkleButton>PESAN TIKET</TwinkleButton>
               </Link>
             ) : (
               <Link to="/login">

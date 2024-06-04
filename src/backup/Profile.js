@@ -5,95 +5,43 @@ import InputForm from "../components/elements/forms/InputForm";
 import axios from "axios";
 import ToastManager from "../components/fragments/ToastManager";
 import { ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
 
 const Profile = () => {
   const { showSuccessUpdateProfile, showSuccessDeleteTicket } = ToastManager();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [user, setUser] = useState(null);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [token, setToken] = useState("");
-  const [expired, setExpired] = useState("");
-  const [tickets, setTickets] = useState([]);
-  const navigate = useNavigate();
+  const [tickets, setTickets] = useState([]); // State for tickets
 
   useEffect(() => {
-    refreshToken();
+    getDataUser();
   }, []);
 
-  const refreshToken = async () => {
-    try {
-      const response = await axios.get(
-        "https://standup-backend-g64dafi2la-et.a.run.app/token"
-      );
-      const newToken = response.data.accessToken;
-      setToken(newToken);
-      const decoded = jwtDecode(newToken);
-      setUserData({
-        id: decoded.id,
-        nama: decoded.nama,
-        email: decoded.email,
-        notelp: decoded.notelp,
-        alamat: decoded.alamat,
-        username: decoded.username,
-      });
-      setExpired(decoded.exp);
+  useEffect(() => {
+    if (user) {
+      fetchProfile();
+      fetchTicket(); // Fetch tickets after user is loaded
+    }
+  }, [user]);
+
+  const getDataUser = async () => {
+    const storedUser = await localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
       setIsLoggedIn(true);
-    } catch (error) {
-      if (error.response) {
-        navigate("/");
-      }
+    } else {
+      setIsLoggedIn(false);
     }
   };
 
-  const axiosJWT = axios.create();
-
-  axiosJWT.interceptors.request.use(
-    async (config) => {
-      const currentDate = new Date();
-      if (expired * 1000 < currentDate.getTime()) {
-        const response = await axios.get(
-          "https://standup-backend-g64dafi2la-et.a.run.app/token"
-        );
-        const newToken = response.data.accessToken;
-        config.headers.Authorization = `Bearer ${newToken}`;
-        setToken(newToken);
-        const decoded = jwtDecode(newToken);
-        setUserData({
-          id: decoded.id,
-          nama: decoded.nama,
-          email: decoded.email,
-          notelp: decoded.notelp,
-          alamat: decoded.alamat,
-          username: decoded.username,
-        });
-        setExpired(decoded.exp);
-        setIsLoggedIn(true);
-      } else {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
-
-  useEffect(() => {
-    if (userData) {
-      fetchProfile();
-      fetchTicket();
-    }
-  }, [userData]);
-
   const fetchProfile = async () => {
     try {
-      const response = await axiosJWT.get(
-        `https://standup-backend-g64dafi2la-et.a.run.app/profile/${userData.id}`
+      const response = await axios.get(
+        `https://standup-backend-g64dafi2la-et.a.run.app/profile/${user.id}`
       );
       if (response.data) {
         setName(response.data.nama);
@@ -109,8 +57,8 @@ const Profile = () => {
   const updateProfile = async (event) => {
     event.preventDefault();
     try {
-      await axiosJWT.put(
-        `https://standup-backend-g64dafi2la-et.a.run.app/profile/update/${userData.id}`,
+      await axios.put(
+        `https://standup-backend-g64dafi2la-et.a.run.app/profile/update/${user.id}`,
         {
           nama: name,
           alamat: address,
@@ -119,7 +67,7 @@ const Profile = () => {
         }
       );
       fetchProfile();
-      showSuccessUpdateProfile();
+      showSuccessUpdateProfile(); // Call the success toast function
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -127,8 +75,8 @@ const Profile = () => {
 
   const fetchTicket = async () => {
     try {
-      const response = await axiosJWT.get(
-        `https://standup-backend-g64dafi2la-et.a.run.app/formbeli/${userData.id}`
+      const response = await axios.get(
+        `https://standup-backend-g64dafi2la-et.a.run.app/formbeli/${user.id}`
       );
       if (response.data) {
         setTickets(response.data);
@@ -140,10 +88,10 @@ const Profile = () => {
 
   const deleteTicket = async (ticketId) => {
     try {
-      await axiosJWT.delete(
+      await axios.delete(
         `https://standup-backend-g64dafi2la-et.a.run.app/formbeli/delete/${ticketId}`
       );
-      fetchTicket();
+      fetchTicket(); // Refresh tickets after deletion
       showSuccessDeleteTicket();
     } catch (error) {
       console.error("Error deleting ticket:", error);
@@ -158,11 +106,12 @@ const Profile = () => {
         className="w-full h-screen object-cover absolute"
       />
       <Navbar status={isLoggedIn} />
+      {/* Overlay dengan opacity hitam */}
       <div className="absolute top-0 left-0 right-0 bottom-0 w-full h-screen bg-black opacity-70"></div>
       <main className="w-full absolute top-20 px-20 h-full mt-10 ">
         <h1 className="text-white text-4xl font-bold text-center">Profile</h1>
         <div className="flex justify-between">
-          <section className="w-[30%] flex flex-col items-center mt-10 mx-auto rounded-xl p-8 bg-primary shadow-thirdShadow">
+          <section className="w-[30%] flex flex-col items-center mt-10 mx-auto rounded-xl p-8  bg-primary shadow-thirdShadow">
             <h2 className="text-white text-2xl font-semibold">Data User</h2>
             <form className="w-full mt-4 text-white" onSubmit={updateProfile}>
               <div className="mb-4">
@@ -223,7 +172,7 @@ const Profile = () => {
               </button>
             </form>
           </section>
-          <section className="w-[60%] flex flex-col items-center mt-10 mx-auto rounded-xl p-8 bg-primary shadow-thirdShadow">
+          <section className="w-[60%]  flex flex-col items-center mt-10 mx-auto rounded-xl p-8  bg-primary shadow-thirdShadow ">
             <h2 className="text-white text-2xl font-semibold">Tiket</h2>
             <div className="w-full h-[320px] border border-white mt-6 overflow-auto">
               {tickets.length > 0 ? (
@@ -292,4 +241,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

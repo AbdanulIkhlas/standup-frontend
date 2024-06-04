@@ -11,7 +11,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate(); // Updated hook
   const [message, setMessage] = useState("");
-  const { showErrorLogin } = ToastManager();
+  const { showSuccessRegister, showSuccessLogout, showErrorLogin } =
+    ToastManager();
 
   const Auth = async (e) => {
     e.preventDefault();
