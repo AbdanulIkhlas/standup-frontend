@@ -6,7 +6,7 @@ import axios from "axios";
 import ToastManager from "../components/fragments/ToastManager";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
+import {jwtDecode} from "jwt-decode"; // Fix import statement
 
 const Profile = () => {
   const { showSuccessUpdateProfile, showSuccessDeleteTicket } = ToastManager();
@@ -130,6 +130,7 @@ const Profile = () => {
       const response = await axiosJWT.get(
         `https://standup-backend-g64dafi2la-et.a.run.app/formbeli/${userData.id}`
       );
+      console.log(response.data);
       if (response.data) {
         setTickets(response.data);
       }
@@ -150,6 +151,11 @@ const Profile = () => {
     }
   };
 
+  const formatWaktu = (waktu) => {
+    const [jam, menit] = waktu.split(":");
+    return `${jam}.${menit}`;
+  };
+
   return (
     <div className="font-roboto relative ">
       <img
@@ -166,7 +172,7 @@ const Profile = () => {
             <h2 className="text-white text-2xl font-semibold">Data User</h2>
             <form className="w-full mt-4 text-white" onSubmit={updateProfile}>
               <div className="mb-4">
-                <p>Nama :</p>
+                <p>Nama </p>
                 <InputForm
                   pathIcon="./svg/icon-name.svg"
                   type="text"
@@ -243,53 +249,59 @@ const Profile = () => {
                         Harga
                       </th>
                       <th className="border border-white px-2 py-1 text-white">
+                        Jumlah
+                      </th>
+                      <th className="border border-white px-2 py-1 text-white">
+                        Total Harga
+                      </th>
+                      <th className="border border-white px-2 py-1 text-white">
                         Action
                       </th>
                     </tr>
                   </thead>
                   <tbody className="text-center">
                     {tickets.map((ticket) => (
-                      <tr key={ticket.id}>
-                        <td className="border border-white px-2 py-1 text-white">
-                          {ticket.Show.judul}
+                      <tr key={ticket.id} className="text-white">
+                        <td className="border border-white px-2 py-1">
+                          {ticket.show.judul}
                         </td>
-                        <td className="border border-white px-2 py-1 text-white">
-                          {ticket.Show.tanggal}
+                        <td className="border border-white px-2 py-1">
+                          {new Date(ticket.show.tanggal).toLocaleDateString("en-GB")}
                         </td>
-                        <td className="border border-white px-2 py-1 text-white">
-                          {ticket.waktu} WIB
+                        <td className="border border-white px-2 py-1">
+                          {formatWaktu(ticket.show.waktu)} WIB
                         </td>
-                        <td className="border border-white px-2 py-1 text-white">
-                          Rp {ticket.Show.harga}
+                        <td className="border border-white px-2 py-1">
+                          Rp {ticket.show.harga}
                         </td>
-                        <td className="border border-white px-2 py-1 text-white">
-                          <div className="w-full">
-                            <SubmitButton
-                              type={"button"}
-                              customClass="bg-[#9b2f2f] rounded shadow-xl"
-                              onClick={() => deleteTicket(ticket.id)}
-                            >
-                              Hapus
-                            </SubmitButton>
-                          </div>
+                        <td className="border border-white px-2 py-1">
+                          {ticket.jumlah}
+                        </td>
+                        <td className="border border-white px-2 py-1">
+                          Rp {ticket.show.harga * ticket.jumlah}
+                        </td>
+                        <td className="border border-white px-2 py-1">
+                          <button
+                            onClick={() => deleteTicket(ticket.id)}
+                            className="bg-red-600 py-1 px-3 rounded hover:bg-red-800"
+                          >
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               ) : (
-                <div className="text-white text-center py-4">
-                  Tidak ada tiket yang dipesan
-                </div>
+                <p className="text-white text-center py-2">No tickets found</p>
               )}
             </div>
           </section>
         </div>
       </main>
-      <ToastContainer /> {/* Add ToastContainer */}
+      <ToastContainer />
     </div>
   );
 };
 
 export default Profile;
-
