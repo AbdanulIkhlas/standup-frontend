@@ -1,11 +1,3 @@
-# FROM node:18-alpine
-# WORKDIR /frontend/
-# COPY public/ /frontend/public
-# COPY src/ /frontend/src
-# COPY package.json /frontend/
-# RUN npm install
-# CMD ["npm", "start"]
-# --------------------------------------
 FROM node:18-alpine
 
 # Set working directory
@@ -16,6 +8,9 @@ COPY public/ /frontend/public
 COPY src/ /frontend/src
 COPY package.json /frontend/
 COPY .env /frontend/
+COPY tailwind.config.js /frontend/
+COPY postcss.config.js /frontend/
+COPY src/index.css /frontend/src/  # Pastikan file CSS utama di-copy
 
 # Install dependencies
 RUN npm install
