@@ -10,7 +10,7 @@ COPY package.json /frontend/
 COPY .env /frontend/
 COPY tailwind.config.js /frontend/
 COPY postcss.config.js /frontend/
-COPY src/index.css /frontend/src/  # Pastikan file CSS utama di-copy
+# COPY src/index.css /frontend/src/  # Baris ini tidak diperlukan jika sudah menyalin seluruh direktori src
 
 # Install dependencies
 RUN npm install
